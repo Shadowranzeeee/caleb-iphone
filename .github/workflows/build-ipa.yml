@@ -1,0 +1,22 @@
+name: Build Caleb IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install XcodeGen
+        run: brew install xcodegen
+      - name: Build unsigned IPA
+        run: bash build-ipa.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Caleb-unsigned
+          path: dist/Caleb-unsigned.ipa
+          if-no-files-found: error
